@@ -1,4 +1,4 @@
-# YOLO_project 
+# YOLOv4_project 
 
 ### 캡스톤디자인 프로젝트
 창원대학교 컴퓨터공학과 18학번 박현진
