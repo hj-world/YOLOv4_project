@@ -87,23 +87,25 @@ YOLOv2 성능 확인 명령어
 ```
 YOLOv4 성능 확인 명령어
 ```
-/darknet detector map yolov4/smd.data yolov4/yolov2.cfg backup_yolov2/yolov4_best.weights
+/darknet detector map yolov4/smd.data yolov4/yolov4.cfg backup_yolov4/yolov4_best.weights
 ```
 
 ### (6) 모델 테스트
-test 명령어를 이용하여 이미지를 입력하고 모델의 객체 탐지 결과를 확인한다.  
-명령어 형식 =>  **./darknet detector test [폴더/data파일] [폴더/cfg파일] [폴더/weights파일] [폴더/.jpg파일] -i 0 -thresh [임계값]**  
+test 명령어를 이용하여 모델의 객체 탐지 결과를 확인한다.  
+명령어 형식 =>  **./darknet detector test [폴더/data파일] [폴더/cfg파일] [폴더/weights파일] [폴더/테스트파일] -i 0 -thresh [임계값]**  
+[폴더/테스트파일]은 이미지(.jpg) 또는 비디오(.avi) 파일을 입력할 수 있다.  
 [임계값]은 0~1까지의 값으로 정한 값 이상으로 검출된 개체만 표시한다.  
 
 
-YOLOv2 성능 확인 명령어
+YOLOv2 테스트 명령어
 ```
 ./darknet detector test yolov2/smd.data yolov2/yolov2-test.cfg backup_yolov2/yolov2_best.weights data/ship.jpg -i 0 -thresh 0.25
 ```
-YOLOv4 성능 확인 명령어
+YOLOv4 테스트 명령어
 ```
 ./darknet detector test yolov4/smd.data yolov4/yolov4-test.cfg backup_yolov4/yolov4_best.weights data/ship.jpg -i 0 -thresh 0.25
 ```
+
 
 ## 6. 현재까지의 수행 결과
   학습 모델이 결과로 도출되었고, 성능을 확인해보았다. 대표적인 성능 평가 지표인 mAP는 78.17%, precision, recall, average iou는 각각 90%, 93%, 76.10%로 나왔다.  
