@@ -16,32 +16,41 @@
 
 ## 3. 개발 환경
 Hardware  
-● CPU: Intel(R) Xeon(R) CPU E5-2620 v3 2.4GHz * 2  
-● GPU: GeForce GTX 1080 Ti * 12  
-● RAM: 16GB  
++ CPU: Intel(R) Xeon(R) CPU E5-2620 v3 2.4GHz * 2  
++ GPU: GeForce GTX 1080 Ti * 12  
++ RAM: 16GB  
 
 Software  
-● OS: Ubuntu 18.04.5 LTS  
-● CUDA: 11.2  
-● cuDNN: 8.0.5  
-● Framework: Darknet  
++ OS: Ubuntu 18.04.5 LTS  
++ CUDA: 11.2  
++ cuDNN: 8.0.5  
++ Framework: Darknet  
 
+## 4. 파일 설명
 
-## 4. 실행 순서
+## 5. 실행 순서
 
 ### (1) github 저장소 복제
 git을 clone하거나 현재 이 페이지에서 zip파일을 다운로드 한다.
 
-`git clone http://github.com/hjp0503/yolov4_project.git`  
+```
+git clone http://github.com/hjp0503/yolov4_project.git 
+```
+YOLO를 실행시키키 위한 신경망 프레임워크인 Darknet(https://github.com/AlexeyAB/darknet.git)은 이미 저장소 안에 설치된 상태이다.
 
 
+### (2) darknet make
+자신의 컴퓨터 환경에 맞게 makefile 파일을 수정하고, make 명령어를 통해 darknet을 컴퓨터에 make 한다.  
+```
+make
+```
 
 
-## 5. 현재까지의 수행 결과
+## 6. 현재까지의 수행 결과
   학습 모델이 결과로 도출되었고, 성능을 확인해보았다. 대표적인 성능 평가 지표인 mAP는 78.17%, precision, recall, average iou는 각각 90%, 93%, 76.10%로 나왔다.  
   샘플 이미지 몇 장으로 모델을 테스트해보았을 때, 10개의 클래스에 대하여 대부분 정확하게 분류하는 것을 확인하였다. 하지만 크기가 작거나 거리가 멀어서 작아 보이는 소형 object에 대한 탐지성능, 큰 object에 완전히 겹쳐진 object에 대한 탐지성능, 전체가 아닌 부분으로 보여지는 object에 대한 탐지성능이 다소 부족하여 이에 대한 개선이 필요하다고 판단하였다.
   
   
-## 6. 기대효과 및 개선방향
+## 7. 기대효과 및 개선방향
   사람의 눈으로도 확인이 어려운 부분까지 잘 탐지하는 것으로 보아 모델을 조금 더 개선시키면, 현장에서의 실질적인 사용도 가능하다고 생각한다. 탐지성능이 떨어지는 문제는 관련 논문과 책에서 비슷한 사례를 찾아보고, 하나씩 고쳐나갈 예정이다.
 
