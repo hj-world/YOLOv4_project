@@ -1,6 +1,6 @@
 # YOLOv4_project 
 
-### 🚢 자율운행 선박을 위한 카메라 기반 장애물 인식 및 회피 시스템 🚢  
+### 🚢 자율운행 선박을 위한 카메라 기반 장애물 인식 시스템 🚢  
 ![image](https://user-images.githubusercontent.com/60416651/113977243-43289880-987d-11eb-893f-fa6cb7ce69a8.png)
 
 ## 1. 개요 및 필요성
@@ -65,7 +65,7 @@ SMD(Singapore Maritime Dataset)을 가공한 데이터셋은 img/img.zip에, 웹
 
 ### (4) 모델 훈련
 train 명령어를 이용하여 훈련을 시작한다.  
-명령어 형식 =>  **./darknet detector train [폴더/data파일] [폴더/cfg파일] [미리 학습된 weights 파일] [옵션]**  
+명령어 형식 =>  **./darknet detector train [폴더/data파일] [폴더/cfg파일] [미리 학습된 weights파일] [옵션]**  
 [pre-trained 가중치 파일] [옵션] 은 선택사항이다.
 
 YOLOv2 훈련 명령어
@@ -80,8 +80,29 @@ YOLOv4 훈련 명령어
 ### (5) 모델 성능 확인
 map 명령어를 이용하여 모델 성능을 확인한다.  
 명령어 형식 =>  **./darknet detector map [폴더/data파일] [폴더/cfg파일] [폴더/weights파일]**  
+
+YOLOv2 성능 확인 명령어
 ```
-/darknet detector map p/smd.data p/yolov4-custom.cfg backup/yolov4-custom_best.weights
+/darknet detector map yolov2/smd.data yolov2/yolov2.cfg backup_yolov2/yolov2_best.weights
+```
+YOLOv4 성능 확인 명령어
+```
+/darknet detector map yolov4/smd.data yolov4/yolov2.cfg backup_yolov2/yolov4_best.weights
+```
+
+### (6) 모델 테스트
+test 명령어를 이용하여 이미지를 입력하고 모델의 객체 탐지 결과를 확인한다.  
+명령어 형식 =>  **./darknet detector test [폴더/data파일] [폴더/cfg파일] [폴더/weights파일] [폴더/.jpg파일] -i 0 -thresh [임계값]**  
+[임계값]은 0~1까지의 값으로 정한 값 이상으로 검출된 개체만 표시한다.  
+
+
+YOLOv2 성능 확인 명령어
+```
+./darknet detector test yolov2/smd.data yolov2/yolov2-test.cfg backup_yolov2/yolov2_best.weights data/ship.jpg -i 0 -thresh 0.25
+```
+YOLOv4 성능 확인 명령어
+```
+./darknet detector test yolov4/smd.data yolov4/yolov4-test.cfg backup_yolov4/yolov4_best.weights data/ship.jpg -i 0 -thresh 0.25
 ```
 
 ## 6. 현재까지의 수행 결과
