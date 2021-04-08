@@ -40,11 +40,49 @@ YOLO를 실행시키키 위한 신경망 프레임워크인 Darknet(https://gith
 
 
 ### (2) darknet make
-자신의 컴퓨터 환경에 맞게 makefile 파일을 수정하고, make 명령어를 통해 darknet을 컴퓨터에 make 한다.  
+자신의 컴퓨터 환경에 맞게 makefile 파일을 수정한다.
+```
+GPU=1              # GPU 사용하여 가속하기 위한 CUDA를 포함
+CUDNN=1            # GPU 사용하여 벼림가속을 위한 CUDNN을 포함
+CUDNN_HALF=1       # 텐서코어에 대해 검출 3x, 벼림 2x 가속됨
+OPENCV=1           # 이미지/동영상/카메라로부터 객체 검출시 opencv 사용
+AVX=0              # 
+OPENMP=0           # 다중-코어 CPU를 사용하여 가속하기 위해 openmp 사용
+LIBSO=1            # 추후 darknet.so 파일 생성
+...
+```
+
+make 명령어를 통해 darknet을 컴퓨터에 make 한다.  
 ```
 make
 ```
 
+### (3) 데이터셋 추가
+img 폴더에 가공된 데이터셋을 추가한다.  
+여기서 가공된 데이터셋은 이미지 + 텍스트파일(ground truth label 정보 포함)을 의미한다.  
+SMD(Singapore Maritime Dataset)을 가공한 데이터셋은 img/img.zip에, 웹크롤링하여 가공한 데이터셋은 img/ 에 있다.  
+모델 훈련시 압축을 풀어서 사용 해야한다.
+
+### (4) 모델 훈련
+train 명령어를 이용하여 훈련을 시작한다.  
+명령어 형식 =>  **./darknet detector train [폴더/data파일] [폴더/cfg파일] [미리 학습된 weights 파일] [옵션]**  
+[pre-trained 가중치 파일] [옵션] 은 선택사항이다.
+
+YOLOv2 훈련 명령어
+```
+./darknet detector train yolov2/smd.data yolov2/yolov4.cfg yolov4.conv.137 -map
+```
+YOLOv4 훈련 명령어
+```
+./darknet detector train yolov4/smd.data yolov4/yolov2.cfg darknet19_448.conv.23 -map
+```
+
+### (5) 모델 성능 확인
+map 명령어를 이용하여 모델 성능을 확인한다.  
+명령어 형식 =>  **./darknet detector map [폴더/data파일] [폴더/cfg파일] [폴더/weights파일]**  
+```
+/darknet detector map p/smd.data p/yolov4-custom.cfg backup/yolov4-custom_best.weights
+```
 
 ## 6. 현재까지의 수행 결과
   학습 모델이 결과로 도출되었고, 성능을 확인해보았다. 대표적인 성능 평가 지표인 mAP는 78.17%, precision, recall, average iou는 각각 90%, 93%, 76.10%로 나왔다.  
