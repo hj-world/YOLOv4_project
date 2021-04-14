@@ -65,7 +65,7 @@ SMD(Singapore Maritime Dataset)을 가공한 데이터셋은 img/img.zip에, 웹
 
 ### (4) 모델 훈련
 train 명령어를 이용하여 훈련을 시작한다.  
-명령어 형식 =>  **./darknet detector train [폴더/data파일] [폴더/cfg파일] [미리 학습된 weights파일] [옵션]**  
+명령어 형식 `*./darknet detector train [폴더/data파일] [폴더/cfg파일] [미리 학습된 weights파일] [옵션]*`  
 [pre-trained 가중치 파일] [옵션] 은 선택사항이다.
 
 YOLOv2 훈련 명령어
@@ -79,7 +79,7 @@ YOLOv4 훈련 명령어
 
 ### (5) 모델 성능 확인
 map 명령어를 이용하여 모델 성능을 확인한다.  
-명령어 형식 =>  **./darknet detector map [폴더/data파일] [폴더/cfg파일] [폴더/weights파일]**  
+명령어 형식 `*./darknet detector map [폴더/data파일] [폴더/cfg파일] [폴더/weights파일]*`    
 
 YOLOv2 성능 확인 명령어
 ```
@@ -91,19 +91,27 @@ YOLOv4 성능 확인 명령어
 ```
 
 ### (6) 모델 테스트
-test 명령어를 이용하여 모델의 객체 탐지 결과를 확인한다.  
-명령어 형식 =>  **./darknet detector test [폴더/data파일] [폴더/cfg파일] [폴더/weights파일] [폴더/테스트파일] -i 0 -thresh [임계값]**  
+test 명령어를 이용하여 모델의 객체 탐지 결과를 확인한다.    
+
+이미지 테스트 명령어 형식 `*./darknet detector *test* [폴더/data파일] [폴더/cfg파일] [폴더/weights파일] *[폴더/테스트.jpg]* -i 0 -thresh [임계값]*`  
+비디오 테스트 명령어 형식 `*./darknet detector *demo* [폴더/data파일] [폴더/cfg파일] [폴더/weights파일] *[폴더/테스트.avi]* -i 0 -thresh [임계값]*`  
 [폴더/테스트파일]은 이미지(.jpg) 또는 비디오(.avi) 파일을 입력할 수 있다.  
 [임계값]은 0~1까지의 값으로 정한 값 이상으로 검출된 개체만 표시한다.  
 
 
 YOLOv2 테스트 명령어
 ```
-./darknet detector test yolov2/smd.data yolov2/yolov2-test.cfg backup_yolov2/yolov2_best.weights data/ship.jpg -i 0 -thresh 0.25
+# 이미지  
+./darknet detector test yolov2/smd.data yolov2/yolov2-test.cfg backup_yolov2/yolov2_best.weights data/ship.jpg -i 0 -thresh 0.25  
+# 비디오  
+./darknet detector demo yolov2/smd.data yolov2/yolov2-test.cfg backup_yolov2/yolov2_best.weights data/ship.avi -i 0 -thresh 0.25  
 ```
 YOLOv4 테스트 명령어
 ```
-./darknet detector test yolov4/smd.data yolov4/yolov4-test.cfg backup_yolov4/yolov4_best.weights data/ship.jpg -i 0 -thresh 0.25
+# 이미지  
+./darknet detector test yolov4/smd.data yolov4/yolov4-test.cfg backup_yolov4/yolov4_best.weights data/ship.jpg -i 0 -thresh 0.25  
+# 비디오
+./darknet detector demo yolov4/smd.data yolov4/yolov4-test.cfg backup_yolov4/yolov4_best.weights data/ship.avi -i 0 -thresh 0.25  
 ```
 
 
