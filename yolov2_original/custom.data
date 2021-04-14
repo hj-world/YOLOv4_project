@@ -1,0 +1,5 @@
+classes=10
+names=yolov2_original/class.names
+train=train.txt
+valid=test.txt
+backup=yolov2_original
