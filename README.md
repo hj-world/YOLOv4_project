@@ -36,8 +36,7 @@ git을 clone하거나 현재 이 페이지에서 zip파일을 다운로드 한�
 ```
 git clone http://github.com/hjp0503/yolov4_project.git 
 ```
-YOLO를 실행시키키 위한 신경망 프레임워크인 Darknet(https://github.com/AlexeyAB/darknet.git)은 이미 저장소 안에 설치된 상태이다.
-
+YOLO를 실행시키키 위한 신경망 프레임워크인 Darknet( https://github.com/AlexeyAB/darknet.git )은 이미 저장소 안에 설치된 상태이다.
 
 ### (2) darknet make
 자신의 컴퓨터 환경에 맞게 makefile 파일을 수정한다.
