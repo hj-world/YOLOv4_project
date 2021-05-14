@@ -1,5 +1,5 @@
 classes=10
 names=yolov2_tune/class.names
 train=train.txt
-valid=test.txt
+valid=valid.txt
 backup=yolov2_tune

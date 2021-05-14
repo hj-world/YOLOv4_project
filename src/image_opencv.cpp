@@ -35,7 +35,6 @@
 #include <opencv2/core/types_c.h>
 #include <opencv2/core/version.hpp>
 #endif
-
 //using namespace cv;
 
 using std::cerr;
@@ -77,6 +76,17 @@ using std::endl;
 #define CV_AA cv::LINE_AA
 #endif
 
+//---------------------tracking------------------------
+// Convert to string
+#define SSTR( x ) static_cast< std::ostringstream & >( \
+( std::ostringstream() << std::dec << x ) ).str()
+
+//------------------------------------------------------
+
+
+//직선 그릴때 사용
+using namespace cv;
+using namespace std;
 extern "C" {
 
     //struct mat_cv : cv::Mat {  };
@@ -883,8 +893,9 @@ extern "C" void draw_detections_cv_v3(mat_cv* mat, detection *dets, int num, flo
         if (!show_img) return;
         static int frame_id = 0;
         frame_id++;
-
+        //printf("!!! frame_id : %d \n", frame_id);
         for (i = 0; i < num; ++i) {
+           //num: 탐지된 물체 수
             char labelstr[4096] = { 0 };
             int class_id = -1;
             for (j = 0; j < classes; ++j) {
@@ -901,6 +912,7 @@ extern "C" void draw_detections_cv_v3(mat_cv* mat, detection *dets, int num, flo
                         sprintf(buff, " (%2.0f%%)", dets[i].prob[j] * 100);
                         strcat(labelstr, buff);
                         printf("%s: %.0f%% ", names[j], dets[i].prob[j] * 100);
+                                       
                         if (dets[i].track_id) printf("(track = %d, sim = %f) ", dets[i].track_id, dets[i].sim);
                     }
                     else {
@@ -911,6 +923,7 @@ extern "C" void draw_detections_cv_v3(mat_cv* mat, detection *dets, int num, flo
                 }
             }
             if (class_id >= 0) {
+                printf("class_id: %d\n", class_id);
                 int width = std::max(1.0f, show_img->rows * .002f);
 
                 //if(0){
@@ -955,7 +968,7 @@ extern "C" void draw_detections_cv_v3(mat_cv* mat, detection *dets, int num, flo
                 //int b_y_center = (top + bot) / 2;
                 //int b_width = right - left;
                 //int b_height = bot - top;
-                //sprintf(labelstr, "%d x %d - w: %d, h: %d", b_x_center, b_y_center, b_width, b_height);
+                //여기sprintf(labelstr, "%d x %d - w: %d, h: %d", b_x_center, b_y_center, b_width, b_height);
 
                 float const font_size = show_img->rows / 1000.F;
                 cv::Size const text_size = cv::getTextSize(labelstr, cv::FONT_HERSHEY_COMPLEX_SMALL, font_size, 1, 0);
@@ -994,9 +1007,56 @@ extern "C" void draw_detections_cv_v3(mat_cv* mat, detection *dets, int num, flo
                 //cvResetImageROI(copy_img);
 
                 cv::rectangle(*show_img, pt1, pt2, color, width, 8, 0);
-                if (ext_output)
+                
+                
+                if (ext_output){
+                    //%4.0f는 소수점 출력하지 않는것
                     printf("\t(left_x: %4.0f   top_y: %4.0f   width: %4.0f   height: %4.0f)\n",
                     (float)left, (float)top, b.w*show_img->cols, b.h*show_img->rows);
+                   
+                    // -------직선 그리기--------------
+                    // 화면크기 1920 x 1080
+                    int width_size = (int)(*show_img).cols;  // 1920
+                    int height_size = (int)(*show_img).rows; // 1080
+
+                    Scalar red(0, 0, 255); // 빨간색 색상 선언
+
+                    Point p1(0, height_size/2), p2(width_size,height_size/2); //좌표 선언
+                    line(*show_img, p1, p2, red); //가로 중앙선
+                    
+                    // --------- 조건에 따라 알림 & 문구 띄우기 ----------- 
+                    float b_x_center = (left + right) / 2;
+                    float b_y_center = (top + bot) / 2;
+                    float b_width = right - left;
+                    float b_height = bot - top;
+                    int b_size =  b_width * b_height;
+                    char comment[20];
+                    int i = 0;
+                                        
+                  
+                    //조건 1 : 물체의 중심을 기준으로, 화면 중앙선 아래에 존재할 경우
+                    if(b_y_center > (height_size/2)){
+                       sprintf(comment, " : NEAR");
+                       i = 1;
+                    }
+                    
+                    //조건 2 : 사이즈 41,472 이상일 경우
+                    if (b_size >= (width_size*height_size)/50){          
+                       if(i != 1){ 
+                           sprintf(comment, " : BIG");
+                       }else{ // 두 조건 다 해당할 경우                           
+                           sprintf(comment, " : BIG & NEAR");
+                           system("ffplay alarm.MP3");
+                       }
+                       i = 2;
+                    }
+                     if(i != 0){
+                        strcat(labelstr, comment);
+                    }
+                    
+                    // ---------------------------------------------------- 
+                    
+                }
                 else
                     printf("\n");
 
@@ -1006,14 +1066,18 @@ extern "C" void draw_detections_cv_v3(mat_cv* mat, detection *dets, int num, flo
                 cv::putText(*show_img, labelstr, pt_text, cv::FONT_HERSHEY_COMPLEX_SMALL, font_size, black_color, 2 * font_size, CV_AA);
                 // cv::FONT_HERSHEY_COMPLEX_SMALL, cv::FONT_HERSHEY_SIMPLEX
             }
+            
         }
         if (ext_output) {
             fflush(stdout);
         }
+        
+
     }
     catch (...) {
         cerr << "OpenCV exception: draw_detections_cv_v3() \n";
     }
+ 
 }
 // ----------------------------------------
 
