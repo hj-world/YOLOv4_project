@@ -114,4 +114,9 @@ YOLOv4 테스트 명령어
 ./darknet detector demo yolov4/smd.data yolov4/yolov4-test.cfg backup_yolov4/yolov4_best.weights data/ship.avi -i 0 -thresh 0.25  
 ```
 
+### (8) 경고알림 기능 실행
+비디오 테스트에 -ext_output 옵션을 붙이면, 가까운 객체에 대해 경고알림이 울린다.  
+```
+./darknet detector demo yolov4/smd.data yolov4/yolov4-test.cfg backup_yolov4/yolov4_best.weights data/ship.avi -i 0 -thresh 0.25 -ext_output
+```
 
